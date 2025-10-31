@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"  // если используешь Express
   }
 }
