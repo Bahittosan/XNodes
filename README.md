@@ -13,7 +13,7 @@ Teams spend time on features, not infrastructure.
 ## Submission to 2025 Solana Colosseum  
 Submission by:  
 - Bakhyt Adilova — https://github.com/Bahittosan · https://x.com/AdillBaqyt · https://www.linkedin.com/in/bakhyt-adill/ 
-
+With support from the Solana Superteam Kazakhstan
 ---
 
 ## Resources
