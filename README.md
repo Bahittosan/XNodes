@@ -49,14 +49,14 @@ Impact estimates
 ---
 
 ## Summary of Submission Features
-- One-line SDK init; compact SDKs (target ~5 MB)  
-- Smart routing: health / latency / cost / geo / quota policies  
-- Automatic provider failover and multi-chain failover  
-- Cost optimization and SLA-aware routing  
-- Telemetry: p50/p95 latency, error rates, uptime, historical graphs  
-- Export (JSON / CSV), public dashboard (MVP)  
-- CA‑CHECKER: session hijack detection  
-- Enterprise roadmap: white-label, SAML, self-host, SLAs
+- One-line SDK init; compact SDKs (developer-friendly)
+- Smart routing: health / latency / cost / geo policies
+- Automatic provider failover and multi-chain failover
+- Cost-aware routing to optimize provider spend
+- Basic telemetry: p50/p95 latency, error rates, uptime
+- Public dashboard (MVP) and data export options for partners
+- Security monitoring and session integrity checks (privacy‑preserving)
+- Roadmap includes expanded integrations and enterprise support (details available to partners)
 
 ---
 
@@ -107,10 +107,11 @@ Production notes: use a secret manager for keys, enable TLS, configure SLOs/SLAs
 ---
 
 ## Roadmap (12 months)
-- Q1: Solana focus — SDK, SEP integrations (SEP-6/24/31/38/1/12/10/30/39), MVP front/back, 50 pilots  
-- Q2: Multi-chain — EVM, Cosmos, Polkadot, SUI, Aptos, ICP; SDK + wallet integrations  
-- Q3: B2B SaaS — team dashboards, SLAs, self-host, enterprise features  
-- Q4: B2C Superapp — wallet, swap, send/receive; scale to 1k+ customers
+Roadmap (high level)
+- Q1: Focus on Solana SDK and MVP; onboard initial pilot partners.
+- Q2: Expand to additional chains and wallet integrations.
+- Q3: Build enterprise features (dashboards, SLA options).
+- Q4: Consumer product iterations and scale.
 
 ---
 
