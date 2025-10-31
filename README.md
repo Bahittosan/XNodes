@@ -17,11 +17,10 @@ Submission by:
 ---
 
 ## Resources
-- Presentation: https://link.to/presentation  
-- Demo video: https://link.to/demo_video  
-- Live dashboard (MVP): https://app.xnodes.dev  
-- Project website: https://xnodes.dev  
-- Social: https://twitter.com/xnodes_dev · https://t.me/xnodes_dev · https://linkedin.com/company/xnodes  
+- Presentation: https://drive.google.com/file/d/1zDE7bk1tQrd3-1C7tzAtjLxSWtRjkc_z/view?usp=sharing
+- Demo video: https://youtu.be/bPyw_jN07M0
+- Live dashboard (MVP): https://x-nodes.vercel.app/  
+- Social:   
 - SDK & examples: https://github.com/xnodes/sdk-examples
 
 ---
@@ -137,22 +136,5 @@ How to help:
 - Open an issue to propose a new provider (URL, rate limits, auth)  
 - Pilots and feedback:  Telegram @BahittoSan
 
-
-## Temporary MVP Deployment
-You can run the temporary MVP locally for testing purposes:
-
-# Clone the repository
-git clone https://github.com/yourusername/xnodes.git
-cd xnodes
-
-# Backend (Router)
-cd router
-npm install
-npm run dev  # runs on localhost:3001
-
-# Frontend (SDK example)
-cd ../sdk/examples/quickstart
-npm install
-npm run start  # frontend will use localhost:3001 for API calls
 
 
