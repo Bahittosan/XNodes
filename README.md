@@ -4,11 +4,13 @@
   <img src="assets/hero.jpg" alt="XNodes" width="800"/>
 </div>
 
-Short: XNodes is an autopilot for RPC providers. Smart routing, automatic failover, and cost optimization for multi-chain applications — solving unreliable and expensive RPCs so teams spend time on features, not infrastructure.
+## XNodes is an autopilot for RPC providers.
+Smart routing, automatic failover, and cost optimization for multi-chain applications.
+Teams spend time on features, not infrastructure.
 
 ---
 
-Submission to 2025 Solana Colosseum  
+## Submission to 2025 Solana Colosseum  
 Submission by:  
 - Bakhyt Adilova — https://github.com/Bahittosan · https://x.com/AdillBaqyt · https://www.linkedin.com/in/bakhyt-adill/ 
 
@@ -27,8 +29,8 @@ Submission by:
 ## Problem and solution
 
 Problem
-- RPC providers are unreliable: outages, timeouts and latency spikes (30–75% failures for some providers under peak load).  
-- No unified place to compare provider quality and price — teams overpay and spend time debugging.  
+- RPC providers are unreliable: outages, timeouts and latency spikes (30-75% failures for some providers under peak load).  
+- No unified place to compare provider quality and price - teams overpay and spend time debugging.  
 - Multi-chain increases integration cost and complexity (10–20 hours per provider/endpoint).
 
 Solution (XNodes)
@@ -36,7 +38,7 @@ Solution (XNodes)
 - Automatic failover with circuit-breaker logic (switch within ~700 ms on failure or congestion).  
 - Cost-aware routing — route by price + SLA.  
 - Unified multi-chain SDK: one-line init and a single interface for Solana (priority), EVM, Aptos, Sui, etc.  
-- CA‑CHECKER — session-hijack detection and security tagging.  
+- CA‑CHECKER - session-hijack detection and security tagging.  
 - Real-time telemetry, live logs and historical charts for audit and RCA.
 
 Impact estimates
@@ -74,7 +76,7 @@ Impact estimates
 ## Architecture
 
 <div align="left">
-  <img src="./assets/architecture diagram.png" alt="Architecture diagram" width="800"/>
+  <img src="assets/architecture diagram.png" alt="Architecture diagram" width="800"/>
 </div>
 
 ---
