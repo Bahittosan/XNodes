@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡XNodes </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #14F195 0%, #00D4FF 50%, #9945FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #8b949e;
+            margin-bottom: 15px;
+        }
+
+        .hackathon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(20, 241, 149, 0.1);
+            border: 1px solid #14F195;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            color: #14F195;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #14F195 0%, #9945FF 100%);
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #000;
+            transition: all 0.3s;
+            box-shadow: 0 4px 25px rgba(20, 241, 149, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 35px rgba(20, 241, 149, 0.6);
+        }
+
+        .test-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* STATS GRID - БЛОК 1 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #14F195;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(20, 241, 149, 0.15);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #8b949e;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #14F195 0%, #9945FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* TERMINAL LOGS - БЛОК 3 (показываем первым) */
+        .terminal-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #c9d1d9;
+        }
+
+        .terminal {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal::-webkit-scrollbar-track {
+            background: #161b22;
+            border-radius: 4px;
+        }
+
+        .terminal::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 4px;
+        }
+
+        .terminal::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .log-time {
+            color: #6e7681;
+            margin-right: 8px;
+        }
+
+        .log-icon {
+            margin-right: 8px;
+        }
+
+        .log-success {
+            color: #14F195;
+        }
+
+        .log-error {
+            color: #f85149;
+        }
+
+        .log-info {
+            color: #00D4FF;
+        }
+
+        .log-warning {
+            color: #ffa657;
+        }
+
+        /* RESULTS TABLE - БЛОК 2 */
+        .results-section {
+            margin-bottom: 40px;
+        }
+
+        .results-table-wrapper {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table thead {
+            background: #0d1117;
+        }
+
+        .results-table th {
+            padding: 18px;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #30363d;
+        }
+
+        .results-table th:first-child {
+            width: 60px;
+            text-align: center;
+        }
+
+        .results-table td {
+            padding: 20px 18px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .results-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .results-table tbody tr:hover {
+            background: #0d1117;
+        }
+
+        .rank-cell {
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .medal {
+            font-size: 2rem;
+        }
+
+        .rank-number {
+            font-weight: 700;
+            color: #8b949e;
+            font-size: 1.3rem;
+        }
+
+        .endpoint-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .endpoint-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #c9d1d9;
+        }
+
+        .endpoint-url {
+            font-size: 0.85rem;
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .latency-cell {
+            min-width: 200px;
+        }
+
+        .latency-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .latency-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #21262d;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .latency-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: rgba(20, 241, 149, 0.15);
+            color: #14F195;
+            border: 1px solid rgba(20, 241, 149, 0.3);
+        }
+
+        .status-error {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+
+        .blockhash-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #9945FF;
+        }
+
+        .error-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #f85149;
+        }
+
+        /* LOADING */
+        .loading-container {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            border: 4px solid #21262d;
+            border-top: 4px solid #14F195;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: #14F195;
+            font-weight: 600;
+        }
+
+        /* ERROR MESSAGE */
+        .error-message {
+            background: rgba(248, 81, 73, 0.1);
+            border: 2px solid #f85149;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            color: #f85149;
+            font-weight: 600;
+            margin: 30px 0;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .results-table {
+                font-size: 0.85rem;
+            }
+            
+            .results-table th,
+            .results-table td {
+                padding: 12px 10px;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <span>⚡XNodes </span>
+                <span>Smart RPC Router</span>
+            </div>
+            <p class="subtitle">Real-time Solana RPC Latency Testing</p>
+            <div class="hackathon-badge">
+                <span>🏆</span>
+                <span>Solana Cypherpunk Hackathon 2025</span>
+            </div>
+            <br><br>
+            <button class="test-button" id="testButton" onclick="testAllRPCs()">
+                <span>🔄</span>
+                <span>Test Again</span>
+            </button>
+        </header>
+
+        <!-- LOADING -->
+        <div id="loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <p class="loading-text">Testing RPC endpoints...</p>
+        </div>
+
+        <!-- ERROR -->
+        <div id="error" class="error-message" style="display: none;"></div>
+
+        <!-- БЛОК 1: STATS -->
+        <div id="stats" class="stats-grid" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-label">⚡ Fastest</div>
+                <div class="stat-value" id="stat-fastest">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🎯 Speed</div>
+                <div class="stat-value" id="stat-speed">--ms</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">📊 Total Endpoints</div>
+                <div class="stat-value" id="stat-total">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">✅ Online</div>
+                <div class="stat-value" id="stat-online">--</div>
+            </div>
+        </div>
+
+        <!-- БЛОК 2: RESULTS TABLE -->
+        <div id="results-section" class="results-section" style="display: none;">
+            <h2 class="section-title">
+                <span>📊</span>
+                <span>Results (Sorted by Speed)</span>
+            </h2>
+            <div class="results-table-wrapper">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>RPC ENDPOINT</th>
+                            <th>LATENCY</th>
+                            <th>STATUS</th>
+                            <th>BLOCKHASH</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- БЛОК 3: TERMINAL (внизу) -->
+        <div id="terminal-section" class="terminal-section" style="display: none;">
+            <h2 class="section-title">
+                <span>💻</span>
+                <span>Live Logs</span>
+            </h2>
+            <div class="terminal" id="terminal"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api/test-endpoints';
+        let terminalLogs = [];
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+            const icons = {
+                'info': '🚀',
+                'success': '✅',
+                'error': '❌',
+                'warning': '⚠️'
+            };
+            
+            const logClass = `log-${type}`;
+            const icon = icons[type] || '📝';
+            
+            terminalLogs.push({
+                timestamp,
+                message,
+                type,
+                icon
+            });
+            
+            updateTerminal();
+        }
+
+        function updateTerminal() {
+            const terminal = document.getElementById('terminal');
+            terminal.innerHTML = terminalLogs.map(log => `
+                <div class="log-entry ${log.type === 'success' ? 'log-success' : log.type === 'error' ? 'log-error' : log.type === 'warning' ? 'log-warning' : 'log-info'}">
+                    <span class="log-time">[${log.timestamp}]</span>
+                    <span class="log-icon">${log.icon}</span>
+                    <span>${log.message}</span>
+                </div>
+            `).join('');
+            
+            // Auto-scroll to bottom
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        async function testAllRPCs() {
+            const button = document.getElementById('testButton');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const stats = document.getElementById('stats');
+            const resultsSection = document.getElementById('results-section');
+            const terminalSection = document.getElementById('terminal-section');
+            const resultsTbody = document.getElementById('results-tbody');
+
+            // Reset UI
+            button.disabled = true;
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            stats.style.display = 'none';
+            resultsSection.style.display = 'none';
+            terminalSection.style.display = 'block';
+            resultsTbody.innerHTML = '';
+            terminalLogs = [];
+
+            addLog('Starting RPC latency test...', 'info');
+            addLog('Testing 6 endpoints...', 'info');
+
+            try {
+                const endpoints = [
+                    'Solana Mainnet',
+                    'Ankr',
+                    'Helius',
+                    'Syndica',
+                    'QuickNode',
+                    'Project Serum'
+                ];
+
+                endpoints.forEach(name => {
+                    addLog(`Testing ${name}...`, 'info');
+                });
+
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                if (data.success && data.results) {
+                    data.results.forEach(result => {
+                        if (result.status === 'success') {
+                            addLog(`${result.name} - Success: ${result.latency}ms`, 'success');
+                        } else {
+                            addLog(`${result.name} - Failed: ${result.error}`, 'error');
+                        }
+                    });
+
+                    addLog('All tests completed!', 'success');
+                    
+                    const fastest = data.results[0];
+                    addLog(`Fastest: ${fastest.name} (${fastest.latency}ms)`, 'success');
+
+                    displayResults(data.results);
+                    displayStats(data.results);
+                } else {
+                    throw new Error('Failed to get results');
+                }
+            } catch (err) {
+                error.textContent = '❌ Cannot connect to backend. Make sure server is running on port 3001.';
+                error.style.display = 'block';
+                addLog('Connection failed!', 'error');
+                addLog(err.message, 'error');
+                console.error(err);
+            } finally {
+                loading.style.display = 'none';
+                button.disabled = false;
+            }
+        }
+
+        function displayStats(results) {
+            const stats = document.getElementById('stats');
+            const successResults = results.filter(r => r.status === 'success');
+            const fastest = results[0];
+
+            document.getElementById('stat-fastest').textContent = fastest.name;
+            document.getElementById('stat-speed').textContent = `${fastest.latency}ms`;
+            document.getElementById('stat-total').textContent = results.length;
+            document.getElementById('stat-online').textContent = successResults.length;
+
+            stats.style.display = 'grid';
+        }
+
+        function displayResults(results) {
+            const tbody = document.getElementById('results-tbody');
+            const resultsSection = document.getElementById('results-section');
+            
+            results.forEach((result, index) => {
+                const row = document.createElement('tr');
+                
+                // Rank
+                const rankCell = document.createElement('td');
+                rankCell.className = 'rank-cell';
+                if (index === 0) {
+                    rankCell.innerHTML = '<span class="medal">🥇</span>';
+                } else if (index === 1) {
+                    rankCell.innerHTML = '<span class="medal">🥈</span>';
+                } else if (index === 2) {
+                    rankCell.innerHTML = '<span class="medal">🥉</span>';
+                } else {
+                    rankCell.innerHTML = `<span class="rank-number">${index + 1}</span>`;
+                }
+                row.appendChild(rankCell);
+                
+                // Endpoint
+                const endpointCell = document.createElement('td');
+                endpointCell.innerHTML = `
+                    <div class="endpoint-info">
+                        <div class="endpoint-name">${result.name}</div>
+                        <div class="endpoint-url">${result.url}</div>
+                    </div>
+                `;
+                row.appendChild(endpointCell);
+                
+                // Latency
+                const latencyCell = document.createElement('td');
+                latencyCell.className = 'latency-cell';
+                const color = getLatencyColor(result.latency, result.status);
+                const barWidth = getLatencyBarWidth(result.latency, results);
+                latencyCell.innerHTML = `
+                    <div class="latency-value" style="color: ${color}">${result.latency}ms</div>
+                    <div class="latency-bar-bg">
+                        <div class="latency-bar" style="width: ${barWidth}%; background: ${color}"></div>
+                    </div>
+                `;
+                row.appendChild(latencyCell);
+                
+                // Status
+                const statusCell = document.createElement('td');
+                const statusClass = result.status === 'success' ? 'status-success' : 'status-error';
+                const statusIcon = result.status === 'success' ? '✓' : '✗';
+                statusCell.innerHTML = `
+                    <span class="status-badge ${statusClass}">
+                        ${statusIcon} ${result.status.toUpperCase()}
+                    </span>
+                `;
+                row.appendChild(statusCell);
+                
+                // Blockhash/Error
+                const blockhashCell = document.createElement('td');
+                if (result.blockhash) {
+                    blockhashCell.innerHTML = `<div class="blockhash-cell">${result.blockhash}</div>`;
+                } else if (result.error) {
+                    blockhashCell.innerHTML = `<div class="error-text">${result.error}</div>`;
+                } else {
+                    blockhashCell.innerHTML = `<div class="error-text">Failed to fetch</div>`;
+                }
+                row.appendChild(blockhashCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            resultsSection.style.display = 'block';
+        }
+
+        function getLatencyColor(latency, status) {
+            if (status === 'error') return '#f85149';
+            if (latency < 200) return '#14F195';
+            if (latency < 500) return '#ffa657';
+            return '#f85149';
+        }
+
+        function getLatencyBarWidth(latency, allResults) {
+            const maxLatency = Math.max(...allResults.map(r => r.latency), 1000);
+            return Math.min((latency / maxLatency) * 100, 100);
+        }
+
+        // Auto-start test on page load
+        window.addEventListener('load', () => {
+            testAllRPCs();
+        });
+    </script>
+</body>
+</html>
