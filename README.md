@@ -20,7 +20,7 @@ Submission by:
 - Presentation: https://drive.google.com/file/d/1zDE7bk1tQrd3-1C7tzAtjLxSWtRjkc_z/view?usp=sharing
 - Demo video: https://youtu.be/bPyw_jN07M0
 - Live dashboard (MVP): https://x-nodes.vercel.app/  
-- Social:   
+- Social: https://x.com/XNodes_kz
 - SDK & examples: https://github.com/xnodes/sdk-examples
 
 ---
