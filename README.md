@@ -1,5 +1,3 @@
-
-cat > README.md <<'EOF'
 # XNodes
 
 <div align="left">
