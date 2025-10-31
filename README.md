@@ -75,7 +75,7 @@ Impact estimates
 ## Architecture
 
 <div align="left">
-  <img src="assets/architecture diagram.png" alt="Architecture diagram" width="800"/>
+  <img src="assets/Arch.png" alt="Architecture diagram" width="800"/>
 </div>
 
 ---
