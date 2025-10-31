@@ -25,10 +25,9 @@ const RPC_ENDPOINTS = [
  */
 async function testEndpoint(endpoint) {
   const startTime = Date.now();
-  
+
   try {
-    // Make JSON-RPC request to get latest blockhash
-    const response = await fetch(`${API_URL}/api/test-endpoints`, {
+    const response = await fetch(endpoint.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -43,44 +42,28 @@ async function testEndpoint(endpoint) {
     const endTime = Date.now();
     const latency = endTime - startTime;
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const data = await response.json();
-    
-    // Check if RPC returned valid result
-    if (data.error) {
-      return {
-        name: endpoint.name,
-        url: endpoint.url,
-        latency: latency,
-        status: 'error',
-        error: data.error.message,
-        blockhash: null
-      };
-    }
-
-    // Extract blockhash from result
     const blockhash = data.result?.value?.blockhash || 'N/A';
 
     return {
       name: endpoint.name,
       url: endpoint.url,
-      latency: latency,
+      latency,
       status: 'success',
-      blockhash: blockhash.substring(0, 10) + '...', // Shorten for display
+      blockhash: blockhash.substring(0, 10) + '...',
       error: null
     };
 
   } catch (error) {
     const endTime = Date.now();
     const latency = endTime - startTime;
-    
+
     return {
       name: endpoint.name,
       url: endpoint.url,
-      latency: latency,
+      latency,
       status: 'error',
       error: error.message,
       blockhash: null
@@ -90,30 +73,22 @@ async function testEndpoint(endpoint) {
 
 /**
  * API endpoint to test all RPCs
- * GET /api/test-endpoints
  */
 app.get('/api/test-endpoints', async (req, res) => {
-  console.log('Testing RPC endpoints...');
-  
   try {
-    // Test all endpoints in parallel for speed
     const results = await Promise.all(
       RPC_ENDPOINTS.map(endpoint => testEndpoint(endpoint))
     );
-    
-    // Sort by latency (fastest first)
+
     const sortedResults = results.sort((a, b) => a.latency - b.latency);
-    
-    console.log(`Tested ${sortedResults.length} endpoints`);
-    
+
     res.json({
       success: true,
       timestamp: new Date().toISOString(),
       results: sortedResults
     });
-    
+
   } catch (error) {
-    console.error('Error testing endpoints:', error);
     res.status(500).json({
       success: false,
       error: error.message
@@ -121,7 +96,7 @@ app.get('/api/test-endpoints', async (req, res) => {
   }
 });
 
-// Health check endpoint
+// Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Smart RPC Router API is running' });
 });
@@ -129,6 +104,4 @@ app.get('/health', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Smart RPC Router API running on http://localhost:${PORT}`);
-  console.log(`📊 Test endpoints at: http://localhost:${PORT}/api/test-endpoints`);
-
 });
