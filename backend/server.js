@@ -28,7 +28,7 @@ async function testEndpoint(endpoint) {
   
   try {
     // Make JSON-RPC request to get latest blockhash
-    const response = await fetch(endpoint.url, {
+    const response = await fetch(`${API_URL}/api/test-endpoints`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -130,4 +130,5 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Smart RPC Router API running on http://localhost:${PORT}`);
   console.log(`📊 Test endpoints at: http://localhost:${PORT}/api/test-endpoints`);
+
 });
