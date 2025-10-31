@@ -499,7 +499,8 @@
     </div>
 
     <script>
-        const API_URL = 'https://x-nodes-kav9.vercel.app';
+        // === Исправлено: теперь правильно стучимся на API endpoint ===
+        const API_URL = 'https://x-nodes-kav9.vercel.app/api/test-endpoints';
         let terminalLogs = [];
 
         function addLog(message, type = 'info') {
@@ -534,7 +535,6 @@
                 </div>
             `).join('');
             
-            // Auto-scroll to bottom
             terminal.scrollTop = terminal.scrollHeight;
         }
 
@@ -547,7 +547,6 @@
             const terminalSection = document.getElementById('terminal-section');
             const resultsTbody = document.getElementById('results-tbody');
 
-            // Reset UI
             button.disabled = true;
             loading.style.display = 'block';
             error.style.display = 'none';
@@ -574,6 +573,7 @@
                     addLog(`Testing ${name}...`, 'info');
                 });
 
+                // === Исправлено: fetch теперь идёт по полному API_URL ===
                 const response = await fetch(API_URL);
                 const data = await response.json();
 
@@ -597,7 +597,7 @@
                     throw new Error('Failed to get results');
                 }
             } catch (err) {
-                error.textContent = '❌ Cannot connect to backend. Make sure server is running on port 3001.';
+                error.textContent = '❌ Cannot connect to backend. Make sure server is running.';
                 error.style.display = 'block';
                 addLog('Connection failed!', 'error');
                 addLog(err.message, 'error');
@@ -628,21 +628,14 @@
             results.forEach((result, index) => {
                 const row = document.createElement('tr');
                 
-                // Rank
                 const rankCell = document.createElement('td');
                 rankCell.className = 'rank-cell';
-                if (index === 0) {
-                    rankCell.innerHTML = '<span class="medal">🥇</span>';
-                } else if (index === 1) {
-                    rankCell.innerHTML = '<span class="medal">🥈</span>';
-                } else if (index === 2) {
-                    rankCell.innerHTML = '<span class="medal">🥉</span>';
-                } else {
-                    rankCell.innerHTML = `<span class="rank-number">${index + 1}</span>`;
-                }
+                if (index === 0) rankCell.innerHTML = '<span class="medal">🥇</span>';
+                else if (index === 1) rankCell.innerHTML = '<span class="medal">🥈</span>';
+                else if (index === 2) rankCell.innerHTML = '<span class="medal">🥉</span>';
+                else rankCell.innerHTML = `<span class="rank-number">${index + 1}</span>`;
                 row.appendChild(rankCell);
                 
-                // Endpoint
                 const endpointCell = document.createElement('td');
                 endpointCell.innerHTML = `
                     <div class="endpoint-info">
@@ -652,7 +645,6 @@
                 `;
                 row.appendChild(endpointCell);
                 
-                // Latency
                 const latencyCell = document.createElement('td');
                 latencyCell.className = 'latency-cell';
                 const color = getLatencyColor(result.latency, result.status);
@@ -665,26 +657,16 @@
                 `;
                 row.appendChild(latencyCell);
                 
-                // Status
                 const statusCell = document.createElement('td');
                 const statusClass = result.status === 'success' ? 'status-success' : 'status-error';
                 const statusIcon = result.status === 'success' ? '✓' : '✗';
-                statusCell.innerHTML = `
-                    <span class="status-badge ${statusClass}">
-                        ${statusIcon} ${result.status.toUpperCase()}
-                    </span>
-                `;
+                statusCell.innerHTML = `<span class="status-badge ${statusClass}">${statusIcon} ${result.status.toUpperCase()}</span>`;
                 row.appendChild(statusCell);
                 
-                // Blockhash/Error
                 const blockhashCell = document.createElement('td');
-                if (result.blockhash) {
-                    blockhashCell.innerHTML = `<div class="blockhash-cell">${result.blockhash}</div>`;
-                } else if (result.error) {
-                    blockhashCell.innerHTML = `<div class="error-text">${result.error}</div>`;
-                } else {
-                    blockhashCell.innerHTML = `<div class="error-text">Failed to fetch</div>`;
-                }
+                if (result.blockhash) blockhashCell.innerHTML = `<div class="blockhash-cell">${result.blockhash}</div>`;
+                else if (result.error) blockhashCell.innerHTML = `<div class="error-text">${result.error}</div>`;
+                else blockhashCell.innerHTML = `<div class="error-text">Failed to fetch</div>`;
                 row.appendChild(blockhashCell);
                 
                 tbody.appendChild(row);
@@ -705,7 +687,6 @@
             return Math.min((latency / maxLatency) * 100, 100);
         }
 
-        // Auto-start test on page load
         window.addEventListener('load', () => {
             testAllRPCs();
         });
