@@ -499,7 +499,10 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:3001/api/test-endpoints';
+        const API_URL = (window.location.hostname === 'localhost')
+    ? 'http://localhost:3001/api/test-endpoints'  // локальная разработка
+    : 'https://x-nodes.vercel.app/api/test-endpoints'; // Vercel Production
+
         let terminalLogs = [];
 
         function addLog(message, type = 'info') {
