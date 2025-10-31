@@ -1,7 +1,7 @@
 # XNodes
 
 <div align="left">
-  <img src="./assets/hero.jpg" alt="Logo XNodes" width="800"/>
+  <img src="/assets/hero.jpg" alt="Logo XNodes" width="800"/>
 </div>
 
 Short: XNodes is an autopilot for RPC providers. Smart routing, automatic failover, and cost optimization for multi-chain applications — solving unreliable and expensive RPCs so teams spend time on features, not infrastructure.
