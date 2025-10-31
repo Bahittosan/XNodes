@@ -137,15 +137,22 @@ How to help:
 - Open an issue to propose a new provider (URL, rate limits, auth)  
 - Pilots and feedback:  Telegram @BahittoSan
 
-Run locally:
 
-```bash
+## Temporary MVP Deployment
+You can run the temporary MVP locally for testing purposes:
+
+# Clone the repository
 git clone https://github.com/yourusername/xnodes.git
 cd xnodes
-# router
-cd router && npm install && npm run dev
-# sdk example
-cd ../sdk/examples/quickstart && npm install && npm run start
-```
+
+# Backend (Router)
+cd router
+npm install
+npm run dev  # runs on localhost:3001
+
+# Frontend (SDK example)
+cd ../sdk/examples/quickstart
+npm install
+npm run start  # frontend will use localhost:3001 for API calls
 
 
