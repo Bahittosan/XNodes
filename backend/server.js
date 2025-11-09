@@ -1,47 +1,28 @@
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ----------------- SECURITY MIDDLEWARE -----------------
-app.use(helmet()); // базовые заголовки безопасности
-
-// CORS: разрешаем только твой фронт
-app.use(cors({
-  origin: 'https://x-nodes.vercel.app'
-}));
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 60 * 1000, 
-  max: 60,
-  standardHeaders: true,
-  legacyHeaders: false
-});
-app.use(limiter);
-
+// Enable CORS so frontend can call this API
+app.use(cors());
 app.use(express.json());
 
-// ----------------- ENV KEYS -----------------
-const HELIUS_KEY = process.env.HELIUS_KEY;
-const HELIUS_URL = `https://mainnet.helius-rpc.com?api-key=${HELIUS_KEY}`;
-const QUICKNODE_URL = process.env.QUICKNODE_URL;
-
-// ----------------- RPC ENDPOINTS -----------------
+// List of public Solana RPC endpoints to test
 const RPC_ENDPOINTS = [
   { name: 'Solana Mainnet (Official)', url: 'https://api.mainnet-beta.solana.com' },
   { name: 'Ankr', url: 'https://rpc.ankr.com/solana' },
-  { name: 'Helius', url: HELIUS_URL },
+  { name: 'Helius', url: 'https://mainnet.helius-rpc.com' },
   { name: 'Syndica', url: 'https://solana-mainnet.rpc.syndica.io/api-key/public' },
-  { name: 'QuickNode', url: QUICKNODE_URL },
+  { name: 'QuickNode', url: 'https://falling-black-gas.solana-mainnet.quiknode.pro' },
   { name: 'Project Serum', url: 'https://solana-api.projectserum.com' }
 ];
 
-// ----------------- TEST SINGLE ENDPOINT -----------------
+/**
+ * Test a single RPC endpoint by calling getLatestBlockhash
+ * Returns: { name, url, latency, status, blockhash, error }
+ */
 async function testEndpoint(endpoint) {
   const startTime = Date.now();
 
@@ -55,7 +36,7 @@ async function testEndpoint(endpoint) {
         method: 'getLatestBlockhash',
         params: []
       }),
-      timeout: 5000
+      timeout: 5000 // 5 second timeout
     });
 
     const endTime = Date.now();
@@ -68,7 +49,7 @@ async function testEndpoint(endpoint) {
 
     return {
       name: endpoint.name,
-      url: endpoint.name, // НЕ показываем URL клиенту
+      url: endpoint.url,
       latency,
       status: 'success',
       blockhash: blockhash.substring(0, 10) + '...',
@@ -79,23 +60,26 @@ async function testEndpoint(endpoint) {
     const endTime = Date.now();
     const latency = endTime - startTime;
 
-    console.error(`RPC error for ${endpoint.name}:`, error.message || error);
-
     return {
       name: endpoint.name,
-      url: endpoint.name, // безопасно
+      url: endpoint.url,
       latency,
       status: 'error',
-      error: 'Failed to fetch', // фронту безопасно
+      error: error.message,
       blockhash: null
     };
   }
 }
 
-// ----------------- API ENDPOINT -----------------
+/**
+ * API endpoint to test all RPCs
+ */
 app.get('/api/test-endpoints', async (req, res) => {
   try {
-    const results = await Promise.all(RPC_ENDPOINTS.map(testEndpoint));
+    const results = await Promise.all(
+      RPC_ENDPOINTS.map(endpoint => testEndpoint(endpoint))
+    );
+
     const sortedResults = results.sort((a, b) => a.latency - b.latency);
 
     res.json({
@@ -103,21 +87,21 @@ app.get('/api/test-endpoints', async (req, res) => {
       timestamp: new Date().toISOString(),
       results: sortedResults
     });
+
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch'
+      error: error.message
     });
   }
 });
 
-// ----------------- HEALTH CHECK -----------------
+// Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Smart RPC Router API is running' });
 });
 
-// ----------------- START SERVER -----------------
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Smart RPC Router API running on http://localhost:${PORT}`);
 });
