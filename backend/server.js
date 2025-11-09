@@ -12,13 +12,13 @@ app.use(helmet()); // базовые заголовки безопасности
 
 // CORS: разрешаем только твой фронт
 app.use(cors({
-  origin: 'https://x-nodes.vercel.app' // <-- твой фронт-домен
+  origin: 'https://x-nodes.vercel.app'
 }));
 
-// Rate limiting: защита от спама/атаки
+// Rate limiting
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 минута
-  max: 60,             // макс 60 запросов на IP
+  windowMs: 60 * 1000, 
+  max: 60,
   standardHeaders: true,
   legacyHeaders: false
 });
@@ -68,7 +68,7 @@ async function testEndpoint(endpoint) {
 
     return {
       name: endpoint.name,
-      url: endpoint.name, // НЕ показываем полный URL
+      url: endpoint.name, // НЕ показываем URL клиенту
       latency,
       status: 'success',
       blockhash: blockhash.substring(0, 10) + '...',
@@ -79,15 +79,14 @@ async function testEndpoint(endpoint) {
     const endTime = Date.now();
     const latency = endTime - startTime;
 
-    // Логируем на сервере, но не отдаём ключи клиенту
-    console.error(`RPC error for ${endpoint.name}:`, error && error.message ? error.message : error);
+    console.error(`RPC error for ${endpoint.name}:`, error.message || error);
 
     return {
       name: endpoint.name,
-      url: endpoint.name,       // безопасно
+      url: endpoint.name, // безопасно
       latency,
       status: 'error',
-      error: 'Failed to fetch', // безопасно для фронта
+      error: 'Failed to fetch', // фронту безопасно
       blockhash: null
     };
   }
@@ -96,10 +95,7 @@ async function testEndpoint(endpoint) {
 // ----------------- API ENDPOINT -----------------
 app.get('/api/test-endpoints', async (req, res) => {
   try {
-    const results = await Promise.all(
-      RPC_ENDPOINTS.map(endpoint => testEndpoint(endpoint))
-    );
-
+    const results = await Promise.all(RPC_ENDPOINTS.map(testEndpoint));
     const sortedResults = results.sort((a, b) => a.latency - b.latency);
 
     res.json({
@@ -107,7 +103,6 @@ app.get('/api/test-endpoints', async (req, res) => {
       timestamp: new Date().toISOString(),
       results: sortedResults
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({
