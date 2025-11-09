@@ -10,12 +10,15 @@ app.use(cors());
 app.use(express.json());
 
 // List of public Solana RPC endpoints to test
+const HELIUS_KEY = process.env.HELIUS_KEY;
+const HELIUS_URL = `https://mainnet.helius-rpc.com?api-key=${HELIUS_KEY}`;
+const QUICKNODE_URL = process.env.QUICKNODE_URL;
 const RPC_ENDPOINTS = [
   { name: 'Solana Mainnet (Official)', url: 'https://api.mainnet-beta.solana.com' },
   { name: 'Ankr', url: 'https://rpc.ankr.com/solana' },
-  { name: 'Helius', url: 'https://mainnet.helius-rpc.com' },
+  { name: 'Helius', url: HELIUS_URL },
   { name: 'Syndica', url: 'https://solana-mainnet.rpc.syndica.io/api-key/public' },
-  { name: 'QuickNode', url: 'https://falling-black-gas.solana-mainnet.quiknode.pro' },
+  { name: 'QuickNode', url: QUICKNODE_URL },
   { name: 'Project Serum', url: 'https://solana-api.projectserum.com' }
 ];
 
@@ -105,3 +108,4 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Smart RPC Router API running on http://localhost:${PORT}`);
 });
+
